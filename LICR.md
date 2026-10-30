@@ -1,6 +1,6 @@
 Linux Identity And Credential Recovery
-Troubleshooting and System Administration on Ubuntu OS
-Change Hostname, Username & Reset Root Password
+- Troubleshooting and System Administration on Ubuntu OS
+- Change Hostname, Username & Reset Root Password
 
 <Step 1> 
 Reset Root Password via Recovery Mode
@@ -51,17 +51,17 @@ Change Hostname and Update Local Resolution (Vm -> Vm2)
 2.Configure Local Resolution Mapping:
  - Command: sudo nano /etc/hosts
  - Action: Add basic loopback resolution to prevent sudo/network warnings
-   Entry:
-   '''text
+ - Entry:
+   ```text
    127.0.0.1  localhost
    127.0.1.1  Vm2
    
    ::1     ip6-localhost ip6-loopback
    ff02::1 ip6-allnodes
-   ff02::2 ip6-allrouters
+   ff02::2 ip6-allrouters```
 
 3.Refresh Current Shell Session:
- - CommandL exec bash
+ - Command: exec bash
  - Purpose: instantly reload current terminal prompt to reflect new identity (user@Vm2)
 
 
