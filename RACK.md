@@ -33,7 +33,7 @@ Verify network connectivity target Machines
    - Command: ssh-keygen -R 192.168.103.XX
    - Purpose: Re,ove stale host key record from C:\Users\<Username>\.ssh\know_hosts
    - Expected output on success:
-     # Host 192.168.103.XX updated: C:\Users\<Username>\.ssh\know_hosts updated.
+     - # Host 192.168.103.XX updated: C:\Users\<Username>\.ssh\know_hosts updated.
 
 <Step 4> 
  - First-Time Host Authenticity Verification
