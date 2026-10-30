@@ -58,7 +58,8 @@ Change Hostname and Update Local Resolution (Vm -> Vm2)
    
    ::1     ip6-localhost ip6-loopback
    ff02::1 ip6-allnodes
-   ff02::2 ip6-allrouters```
+   ff02::2 ip6-allrouters 
+   ```
 
 3.Refresh Current Shell Session:
  - Command: exec bash
