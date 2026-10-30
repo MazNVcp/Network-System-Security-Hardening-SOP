@@ -11,11 +11,11 @@ Configure Static IP for Cloned Linux VM (Host-Only Network)
 
 <Step 2>
  - Settings the target Virtual Machine
-  - Settings
-  - Network
-  - Adapter 2
-  - Enable Network Adapter
-  - Attached to (Host-only Adapter)
+   - Settings
+   - Network
+   - Adapter 2
+   - Enable Network Adapter
+   - Attached to (Host-only Adapter)
 
 <Step 3>
  - Check the both VM MAC Address is different
@@ -66,11 +66,11 @@ if the virtual machine is <clone> must change the macaddress in different
 
 <Step 5>
  - Verify network connectivity between virtual machines
-  - Ex: Machine A (192.168.103.2) pings Machine B (192.168.103.3) to test the connection
-  - Command: ping 192.168.103.3
-  - Expected output on success:
-   - 64 bytes from 192.168.103.3: icmp_seq=1 ttl=65 time=0.612ms
-  - Note: Seeing "64 bytes" and "time=.." confirms successful network connectivity between the VMs.
+   - Ex: Machine A (192.168.103.2) pings Machine B (192.168.103.3) to test the connection
+   - Command: ping 192.168.103.3
+   - Expected output on success:
+     - 64 bytes from 192.168.103.3: icmp_seq=1 ttl=65 time=0.612ms
+   - Note: Seeing "64 bytes" and "time=.." confirms successful network connectivity between the VMs.
 
 <Step 6>
  - Command: ip address or ip a
