@@ -1,25 +1,25 @@
-Linux Identity And Credential Recovery
+# Linux Identity And Credential Recovery
 - Troubleshooting and System Administration on Ubuntu OS
 - Change Hostname, Username & Reset Root Password
 
 <Step 1> 
-Reset Root Password via Recovery Mode
- - Problem: Root password forgotten or locked out
- - Reboot machine and hold Shift/Esc to access GRUB menu
- - Navigation: Advanced options for Ubuntu -> (recovery mode) -> Drop to root shell prompt
- - Remount root filesysyem with write permissions:
- 	Command: mount -o remount,rw /
- - Reset target user/root password:
-	Command: passwd root
- - Restart system to verify login:
-	Command: exec /sbin/init
- - Purpose: Gain full administrative control without data loss
+ - Reset Root Password via Recovery Mode
+   - Problem: Root password forgotten or locked out
+   - Reboot machine and hold Shift/Esc to access GRUB menu
+   - Navigation: Advanced options for Ubuntu -> (recovery mode) -> Drop to root shell prompt
+   - Remount root filesysyem with write permissions:
+       - Command: mount -o remount,rw /
+   - Reset target user/root password:
+       - Command: passwd root
+   - Restart system to verify login:
+       - Command: exec /sbin/init
+   - Purpose: Gain full administrative control without data loss
 
 <Step 2>
-Hard-Rename Active Local User (Bypassing Process Locks)
- - Problem: "usermod: user is currently used by process XXX" error due to auto-respawning daemon/seesion
- - Cause: Systemd user session locks prevemt stamdard usermod excution
- - Solutuin: Directly modiffy core system configuration files via root shell
+ - Hard-Rename Active Local User (Bypassing Process Locks)
+   - Problem: "usermod: user is currently used by process XXX" error due to auto-respawning daemon/seesion
+   - Cause: Systemd user session locks prevemt stamdard usermod excution
+   - Solutuin: Directly modiffy core system configuration files via root shell
 
 1.Modify User Name and Home Path:
  - Command: nano /etc/psswd
@@ -39,10 +39,10 @@ Hard-Rename Active Local User (Bypassing Process Locks)
  - Purpose: Cleanly re-identify a cloned VM user identity without process collision
 
 <Step 3>
-Change Hostname and Update Local Resolution (Vm -> Vm2)
- - Problem: Clone VM retains original hostname causing network resolution collision 
- - Cause: Hostname and /etc/hosts mapping must be re-identified post-cloning
- - SolutionL update system hostname via hostnamectl and align local loopback resolution
+ - Change Hostname and Update Local Resolution (Vm -> Vm2)
+   - Problem: Clone VM retains original hostname causing network resolution collision 
+   - Cause: Hostname and /etc/hosts mapping must be re-identified post-cloning
+   - SolutionL update system hostname via hostnamectl and align local loopback resolution
 
 1.Set New System Hostname:
  - Command: sudo hostnamectl set-hostname Vm2
