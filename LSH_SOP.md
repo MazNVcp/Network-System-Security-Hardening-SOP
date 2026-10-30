@@ -29,7 +29,7 @@ Configure Static IP for Cloned Linux VM (Host-Only Network)
 
 (origin setting)
 - network:
-	text```
+	```text
 	ethernets:
 	 enp0s3:
 	   dhcp4 : true
@@ -43,7 +43,7 @@ Configure Static IP for Cloned Linux VM (Host-Only Network)
 
 (after Configure Static IP)
 - network:
-	text```
+	```text
 	ethernets:
 	 enp0s3:
 	   dhcp4: true
