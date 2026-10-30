@@ -1,4 +1,4 @@
-Configure Static IP for Cloned Linux VM (Host-Only Network)
+# Configure Static IP for Cloned Linux VM (Host-Only Network)
 
 <Step 1>
  - Open the VirtualBox
