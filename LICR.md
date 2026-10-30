@@ -52,6 +52,7 @@ Change Hostname and Update Local Resolution (Vm -> Vm2)
  - Command: sudo nano /etc/hosts
  - Action: Add basic loopback resolution to prevent sudo/network warnings
    Entry:
+   '''text
    127.0.0.1  localhost
    127.0.1.1  Vm2
    
