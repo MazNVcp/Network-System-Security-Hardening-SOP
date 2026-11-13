@@ -57,6 +57,7 @@
            22/tcp           ALLOW      Anywhere
            22/tcp (v6)      ALLOW      Anywhere (v6)
            ```
+
    - Command: sudo ufw status verbose
       - **Check Detailed Status**: `sudo ufw status verbose`
          - Purpose: View global default policies (Incoming/Outgoing), logging level, and full rules.
