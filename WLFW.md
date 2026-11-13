@@ -10,8 +10,8 @@
 # Windows Firewall Configuration 
 <Step 1>
  - Open Windows Firewall Application
-   - Action: Press 'Win + R', Type 'wf.msc' and press Enter to open Windows Defender Firewall wuth Advanced Security.
-   - Purpose: Access the core firewall management console.
+ - Action: Press 'Win + R', Type 'wf.msc' and press Enter to open Windows Defender Firewall wuth Advanced Security.
+ - Purpose: Access the core firewall management console.
 
 <Step 2>
  - Create a New Inbound/Outbound Rule
@@ -37,4 +37,39 @@
    - **Test Result (Allowed)**: If the Firewall allows the connection, it returns the raw HTML code
   - Note: VirtualBox network must be Bridged or Host-only Adapter to reach Windows Host IP (Avoid NAT mode).
 
+# Linux Firewall Configuration
+<Step 1>
+ - Setup The Linux Firewall by 'ufw'
+   - Command: sudo ufw status to check ufw status.
+      - **Check Basic Status**: `sudo ufw status`
+         - Purpose: Quick check for active status and current rule table.
+   - Command: sudo ufw allow 22/tcp
+      - **Safety Warning**: Before running `sudo ufw enable`, always allow SSH (e.g., `sudo ufw allow 22/tcp`) if you are connected remotely, to avoid getting locked out!
+   - show Rules updated & Rules updated (v6)
+   - Command: sudo ufw enable
+   - If remote the system will ask Command may disrupt existing ssh connections. Proceed with operation (y|n)?
+   - Command: sudo ufw status to check the status
+   ```Text
+   Status: active
 
+   To			Action		From
+   --                   ------          ---- 
+   22/tcp		ALLOW		Anywhere
+   22/tcp (v6)		ALLOW		Anywhere (v6)
+   ```
+   - Command: sudo ufw status verbose
+      - **Check Detailed Status**: `sudo ufw status verbose`
+         - Purpose: View global default policies (Incoming/Outgoing), logging level, and full rules.
+   ```Text
+   Status: active
+   Logging: on (low)
+   Default: deny (incoming), allow (outgoing), disable (routed)
+   New profiles: skip
+   
+   To			Action		From
+   --			------		----
+   22/tcp		ALLOW IN	Anywhere
+   22/tcp (v6)		ALLOW IN	Anywhere (v6)
+   ```
+   
+   
