@@ -49,6 +49,7 @@
    - Command: sudo ufw enable
    - If remote the system will ask Command may disrupt existing ssh connections. Proceed with operation (y|n)?
    - Command: sudo ufw status to check the status
+
            ```text
            Status: active
 
