@@ -49,7 +49,7 @@
    - Command: sudo ufw enable
    - If remote the system will ask Command may disrupt existing ssh connections. Proceed with operation (y|n)?
    - Command: sudo ufw status to check the status
-   ```Text
+   ```text
    Status: active
 
    To				Action			From
@@ -60,7 +60,7 @@
    - Command: sudo ufw status verbose
       - **Check Detailed Status**: `sudo ufw status verbose`
          - Purpose: View global default policies (Incoming/Outgoing), logging level, and full rules.
-   ```Text
+   ```text
    Status: active
    Logging: on (low)
    Default: deny (incoming), allow (outgoing), disable (routed)
