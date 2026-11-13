@@ -52,10 +52,10 @@
    ```Text
    Status: active
 
-   To			Action		From
-   --                   ------          ---- 
-   22/tcp		ALLOW		Anywhere
-   22/tcp (v6)		ALLOW		Anywhere (v6)
+   To				Action			From
+   --           	        ------  	        ---- 
+   22/tcp			ALLOW			Anywhere
+   22/tcp (v6)			ALLOW			Anywhere (v6)
    ```
    - Command: sudo ufw status verbose
       - **Check Detailed Status**: `sudo ufw status verbose`
@@ -66,10 +66,10 @@
    Default: deny (incoming), allow (outgoing), disable (routed)
    New profiles: skip
    
-   To			Action		From
-   --			------		----
-   22/tcp		ALLOW IN	Anywhere
-   22/tcp (v6)		ALLOW IN	Anywhere (v6)
+   To				Action			From
+   --				------			----
+   22/tcp			ALLOW IN		Anywhere
+   22/tcp (v6)			ALLOW IN		Anywhere (v6)
    ```
    
    
