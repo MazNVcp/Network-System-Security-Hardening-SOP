@@ -39,7 +39,7 @@
 
 # Linux Firewall Configuration
 <Step 1>
- - Setup The Linux Firewall by 'ufw'
+ - Setup The Linux Firewall by `ufw`
    - Command: sudo ufw status to check ufw status.
       - **Check Basic Status**: `sudo ufw status`
          - Purpose: Quick check for active status and current rule table.
@@ -74,3 +74,8 @@ To               Action     From
 22/tcp           ALLOW IN   Anywhere
 22/tcp (v6)      ALLOW IN   Anywhere (v6)
 ```
+
+<Step 2>
+ - Install & Configuration nginx
+   - sudo apt install nginx
+   - sudo systemctl status nginx
