@@ -10,9 +10,9 @@
   - Command: mkdir www
   - Command: cd www
   - Command: touch index.html
-  - Option 1 Command: sudo nano index.html "(key in = <html><body><h1>My Test Site</h1></body></html>)"
-  - Option 2 Command: cat << 'EOF' >index.html
-  - Option 3 Command: echo "<h1>My Test Site</h1>" > index.html
+  - Option 1 Command: `sudo nano index.html` (key in = `<html><body><h1>My Test Site</h1></body></html>`)
+  - Option 2 Command: `cat <<< `<html><body><h1>My Test Site</h1></body></html>` >index.html`
+  - Option 3 Command: `echo "<h1>My Test Site</h1>" > index.html`
  
 <Step 2>
 - Start the web server & Allow Subnet via UFW
