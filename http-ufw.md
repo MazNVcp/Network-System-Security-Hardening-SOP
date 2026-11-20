@@ -89,15 +89,18 @@ SubjectAltName=@alt_names
 
 [alt_names]
 DNS.1=web.internal.local
-IP.1=192.168.103.XX
+IP.1=192.168.103.XX (note: Web Server IP)
 ```
 
 <Step 5>
 **Machine 1 (Web Server)**
 - Copy the server.csr and server.ext to (`Machine 2`, `CA Server`).
-- Machine 1 (Web Server) 
-  - Command:`scp server.ext server.csr Machine2@192.168.103.XX:~/internal-ca/ `
+- `Machine 1 (Web Server)` 
+  - Command: cd `~/https`
+  - Command: `scp server.ext server.csr CA_User@CA_IP:~/internal-ca`
 - `Machine 2 (CA Server)` Request Certificate from `Machine 1 (Web Server)`
+  - Command: cd `~/internal-ca`
+  - Command: `ls -la` to Verify `server.csr`, `server.ext`, `ca.crt` & `ca.key` inside the `Machine 2 (CA Server)`
 
 ```bash
 openssl x509 -req \
@@ -111,4 +114,14 @@ openssl x509 -req \
   -extfile server.ext
 ```
 
-  - Show the Certificate request self-signature ok (Success request Certificate)
+  - Verify the signed certificate (Subject & SAN)
+
+```bash
+openssl x509 -in server.crt \
+  -noout \
+  -subject \
+  -ext subjectAltName
+```
+
+
+  
