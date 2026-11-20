@@ -37,4 +37,55 @@ To                    Action        From
 ```
 
 <Step 3>
+- Configuring HTTPS/TLS for a Web Server on an internal network `Internal CA`
+- Create an Internal Root CA:
+  - Command: cd ~
+  - Command: mkdir -p internal-ca
+  - Command: cd internal-ca
+  - Command: openssl genrsa -out ca.key 4096
+  - Command: `cat ca.key` (Verify `-----BEGIN PRIVATE KEY-----` / `-----END PRIVATE KEY-----` header & footer)
+  - Generate Root CA certificate (`ca.crt`):
+
+```bash 
+openssl req -x509 -new -nodes \
+  -key ca.key \
+  -sha256 \
+  -days 3650 \
+  -out ca.crt \
+  -subj "/CN=Internal Network Root CA"
+```
+
+  - Command: `cat ca.crt` (Verify `-----BEGIN CERTIFICATE-----` / `-----END CERTIFICATE-----` header & footer)
+
+<Step 4>
+- Generate a Server Certificate
+  - Command: cd ~
+  - Command: mkdir https
+  - Command: cd https
+  - Command: openssl genrsa -out server.key 2048
+  - Command: `cat server.key` (Verify `-----BEGIN PRIVATE KEY-----` / `-----END PRIVATE KEY-----` header & footer)
+  - Generate Certificate Request (`csr`)
+
+```bash
+openssl req -new \
+  -key server.key \
+  -out server.csr \
+  -subj "/CN=web.internal.local"
+```
+
+  - Command: `cat server.csr` (Verify `-----BEGIN CERTIFICATE REQUEST-----` / `-----END CERTIFICATE REQUEST-----` header & footer)
+  - Command: nano server.ext
+
+```INI
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage=digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+SubjectAltName=@alt_names
+
+[alt_names]
+DNS.1=web.internal.local
+IP.1=192.168.103.XX
+```
+
 
