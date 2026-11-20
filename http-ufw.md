@@ -93,10 +93,11 @@ IP.1=192.168.103.XX
 ```
 
 <Step 5>
-- Copy the server.csr and server.ext to Target Server (`Machine 1`, `Web Server`).
-- On `Machine 1` 
-  - Command:scp server.ext server.csr Machine2@192.168.103.XX:~/internal-ca/ 
-  - 
+**Machine 1 (Web Server)**
+- Copy the server.csr and server.ext to (`Machine 2`, `CA Server`).
+- Machine 1 (Web Server) 
+  - Command:`scp server.ext server.csr Machine2@192.168.103.XX:~/internal-ca/ `
+- `Machine 2 (CA Server)` Request Certificate from `Machine 1 (Web Server)`
 
 ```bash
 openssl x509 -req \
@@ -110,4 +111,4 @@ openssl x509 -req \
   -extfile server.ext
 ```
 
-
+  - Show the Certificate request self-signature ok (Success request Certificate)
