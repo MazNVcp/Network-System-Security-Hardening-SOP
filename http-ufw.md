@@ -1,9 +1,10 @@
 # HTTP Test Server & UFW Configuration (Linux VM)
   - Configure http (Python 3) rules in linux os <Virtual Machine>
 
-# http Configuration
+## http Configuration
  
 <Step 1>
+**Machine 1 (Web Server)**
 - Prepare Test Page (`~/www`)
   - Create a folder name (www) on user (User@PCName~:)
   - Command: cd ~ 
@@ -15,6 +16,7 @@
   - Option 3 Command: `echo <h1>My Test Site</h1> > index.html`
  
 <Step 2>
+**Machine 1 (Web Server)**
 - Start the web server & Allow Subnet via UFW
   - Start HTTP server (run inside '~/www'):
   - Command: sudo python3 -m http.server 80
@@ -37,8 +39,9 @@ To                    Action        From
 ```
 
 <Step 3>
+**Machine 2 (CA Server)**
 - Configuring HTTPS/TLS for a Web Server on an internal network `Internal CA`
-- Create an Internal Root CA:
+- Create an Internal Root CA :
   - Command: cd ~
   - Command: mkdir -p internal-ca
   - Command: cd internal-ca
@@ -58,6 +61,7 @@ openssl req -x509 -new -nodes \
   - Command: `cat ca.crt` (Verify `-----BEGIN CERTIFICATE-----` / `-----END CERTIFICATE-----` header & footer)
 
 <Step 4>
+**Machine 1 (Web Server)**
 - Generate a Server Certificate
   - Command: cd ~
   - Command: mkdir https
@@ -86,6 +90,24 @@ SubjectAltName=@alt_names
 [alt_names]
 DNS.1=web.internal.local
 IP.1=192.168.103.XX
+```
+
+<Step 5>
+- Copy the server.csr and server.ext to Target Server (`Machine 1`, `Web Server`).
+- On `Machine 1` 
+  - Command:scp server.ext server.csr Machine2@192.168.103.XX:~/internal-ca/ 
+  - 
+
+```bash
+openssl x509 -req \
+  -in server.csr \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -CAcreateserial \
+  -out server.crt \
+  -days 365 \
+  -sha256 \
+  -extfile server.ext
 ```
 
 
