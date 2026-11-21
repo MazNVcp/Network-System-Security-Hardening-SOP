@@ -6,11 +6,11 @@
 <Step 1>
 **Machine 1 (Web Server)**
 - Prepare Test Page (`~/www`)
-  - Create a folder name (www) on user (User@PCName~:)
-  - Command: cd ~ 
-  - Command: mkdir www
-  - Command: cd www
-  - Command: touch index.html
+  - Create a folder name (`www`) on user (`User@PCName~:`)
+  - Command: `cd ~` 
+  - Command: `mkdir www`
+  - Command: `cd www`
+  - Command: `touch index.html`
   - Option 1 Command: `sudo nano index.html` (key in = `<html><body><h1>My Test Site</h1></body></html>`)
   - Option 2 Command: `cat <<< <html><body><h1>My Test Site</h1></body></html> >index.html`
   - Option 3 Command: `echo <h1>My Test Site</h1> > index.html`
@@ -19,16 +19,16 @@
 **Machine 1 (Web Server)**
 - Start the web server & Allow Subnet via UFW
   - Start HTTP server (run inside '~/www'):
-  - Command: sudo python3 -m http.server 80
-    - Show Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
-  - Using the Browser enter the 192.168.103.XX( Target IP ) in URL bar will show "My Test Site"
+  - Command: `sudo python3 -m http.server 80`
+    - Show Serving `HTTP` on `0.0.0.0 port 80 (http://0.0.0.0:80/)` ...
+  - Using the Browser enter the `192.168.103.XX( Target IP )` in URL bar will show "My Test Site"
   - If ufw firewall is active & didn't ALLOW the port 80 then need to ALLOW the port
-  - Command: sudo ufw status (Quick Check the ufw firewall status)
-  - Command: sudo ufw allow from 192.168.103.0/24 to any port 80 proto tcp
+  - Command: `sudo ufw status` (Quick Check the ufw firewall status)
+  - Command: `sudo ufw allow from 192.168.103.0/24 to any port 80 proto tcp`
     - 192.168.103.0/24: Entire subnet can access.
     - 192.168.103.1: Only this single IP host can access.
-  - Verify firewall & browser access ('http://192.168.103.XX'):
-  - Command: sudo ufw status
+  - Verify firewall & browser access (`http://192.168.103.XX`):
+  - Command: `sudo ufw status`
 
 ```text
 Status: active
@@ -42,10 +42,10 @@ To                    Action        From
 **Machine 2 (CA Server)**
 - Configuring HTTPS/TLS for a Web Server on an internal network `Internal CA`
 - Create an Internal Root CA :
-  - Command: cd ~
-  - Command: mkdir -p internal-ca
-  - Command: cd internal-ca
-  - Command: openssl genrsa -out ca.key 4096
+  - Command: `cd ~`
+  - Command: `mkdir -p internal-ca`
+  - Command: `cd internal-ca`
+  - Command: `openssl genrsa -out ca.key 4096`
   - Command: `cat ca.key` (Verify `-----BEGIN PRIVATE KEY-----` / `-----END PRIVATE KEY-----` header & footer)
   - Generate Root CA certificate (`ca.crt`):
 
@@ -63,10 +63,10 @@ openssl req -x509 -new -nodes \
 <Step 4>
 **Machine 1 (Web Server)**
 - Generate a Server Certificate
-  - Command: cd ~
-  - Command: mkdir https
-  - Command: cd https
-  - Command: openssl genrsa -out server.key 2048
+  - Command: `cd ~`
+  - Command: `mkdir https`
+  - Command: `cd https`
+  - Command: `openssl genrsa -out server.key 2048`
   - Command: `cat server.key` (Verify `-----BEGIN PRIVATE KEY-----` / `-----END PRIVATE KEY-----` header & footer)
   - Generate Certificate Request (`csr`)
 
@@ -78,7 +78,7 @@ openssl req -new \
 ```
 
   - Command: `cat server.csr` (Verify `-----BEGIN CERTIFICATE REQUEST-----` / `-----END CERTIFICATE REQUEST-----` header & footer)
-  - Command: nano server.ext
+  - Command: `nano server.ext`
 
 ```INI
 authorityKeyIdentifier=keyid,issuer
@@ -96,11 +96,12 @@ IP.1=192.168.103.XX (note: Web Server IP)
 **Machine 1 (Web Server)**
 - Copy the server.csr and server.ext to (`Machine 2`, `CA Server`).
 - `Machine 1 (Web Server)` 
-  - Command: cd `~/https`
+  - Command: `cd ~/https`
   - Command: `scp server.ext server.csr CA_User@CA_IP:~/internal-ca`
 - `Machine 2 (CA Server)` Request Certificate from `Machine 1 (Web Server)`
-  - Command: cd `~/internal-ca`
-  - Command: `ls -la` to Verify `server.csr`, `server.ext`, `ca.crt` & `ca.key` inside the `Machine 2 (CA Server)`
+  - Command: `cd ~/internal-ca`
+  - Command: `ls -la` to Verify `server.csr`, `server.ext`, `ca.crt` & `ca.key` on the `Machine 2 (CA Server)`
+  - Generate (sign) `server.crt` uing the CA certificate and private key:
 
 ```bash
 openssl x509 -req \
@@ -123,5 +124,45 @@ openssl x509 -in server.crt \
   -ext subjectAltName
 ```
 
+<Step 6>
+**Machine 2 (CA Server)**
+- Copy the `server.crt` ( and `ca.crt` if needed ) to (`Machine 1`, `Web Server`).
+- `Machine 2 (CA Server)`
+  - Command: `cd internal-ca`
+  - Command: `scp server.crt Web_User@Web_IP:~/https`
+  - Prompt: `Are you sure you want to continue connecting (yes/no/fingerprint)?` -> type `yes` and press Enter.
+- `Machine 1 (Web Server)`
+  - Command: `cd ~/https` 
+  - Command: `ls -la` to Verify `server.crt`, `server.csr`, `server.ext` & `server.key` on the `Machine 1 (Web Server)`
 
-  
+<Step 7>
+**Multi-Machine (Web Server, CA Server & Client)**
+- Enable HTTPS, Trust Root CA & Verify Connection
+  - `Machine 1 (Web Server)` - Allow Port 443 & Start HTTPS Server
+  - Command: `sudo ufw allow 443/tcp`
+  - Command: `cd ~/https` 
+  - Generate:(Python 3.14 or newer) 
+
+```bash
+sudo python3 -m http.server 443 \
+  --bind 0.0.0.0 \
+  --directory ~/www/ \
+  --tls-cert ~/https/server.crt \
+  --tls-key ~/https/server.key
+```
+
+- `Machine 2 (CA Server)` - Copy `ca.crt` to `Machine 3 (Client)`
+  - Transfer `ca.crt` using `scp -O`(bypasses SFTP subsystem issues when needed):
+  - Command: `cd ~/internal-ca`
+  - Command: `scp -O ca.crt Client_User@Client_IP:~/`
+
+- `Machine 3 (Client)` - Trust Internal CA & Test HTTPS
+  - Command: `cd ~`
+  - Command: `ls -la` to Verify `ca.crt` on the `Machine 3 (Client)`
+  - Command: `cat ca.crt` (Verify `-----BEGIN CERTIFICATE-----` / `-----END CERTIFICATE-----` header & footer)
+  - Command: `sudo cp ~/ca.crt /usr/local/share/ca-certificates/internal-ca.crt`
+  - Command: `sudo update-ca-certificates`
+  - Command: `curl https://192.168.103.XX:443` (IP Machine 1, Web Server)
+  - Verify HTTPS connection succeeds.
+  - Command: `curl -v https://192.168.103.XX:443` (IP Machine 1, Web Server)
+  - Inspect TLS handshake and certificate verification details.
