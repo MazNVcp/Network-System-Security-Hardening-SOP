@@ -38,7 +38,6 @@
   - Note: VirtualBox network must be Bridged or Host-only Adapter to reach Windows Host IP (Avoid NAT mode).
 
 # Linux Firewall Configuration
-<Step 1>
  - Setup The Linux Firewall by `ufw`
    - Command: sudo ufw status to check ufw status.
       - **Check Basic Status**: `sudo ufw status`
@@ -75,7 +74,18 @@ To               Action     From
 22/tcp (v6)      ALLOW IN   Anywhere (v6)
 ```
 
-<Step 2>
- - Install & Configuration nginx
-   - sudo apt install nginx
-   - sudo systemctl status nginx
+# Deny or Allow specific IP addresses
+- Configuration Specific Ip address to port
+  - Command: sudo ufw deny from 192.168.103.0/24 to any port 80 proto tcp
+  - Command: sudo ufw allow from 192.169.103.XX to any port 45 proto tcp *(example custom test port)*
+  - Command: sudo ufw status
+
+```text
+Status: active
+
+To              Action      From
+--              ------      ----
+80/tcp          DENY        192.168.103.0/24
+45/tcp          ALLOW       192.168.103.XX
+```
+
