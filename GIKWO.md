@@ -9,7 +9,7 @@
 
 <Step 2>
  * Generate Independent Key Pair
-   - Command: ssh-keygen -t ed25510 -C "custom key comment" -f /path/to/your/custom_folder/id_custom
+   - Command: ssh-keygen -t ed25519 -C "custom key comment" -f /path/to/your/custom_folder/id_custom
    - Purpose: Generate isolated SSH key pair in the target folder without overwriting default keys ('id_rsa'/'id_ed25519')
    - Verification: Run 'ls -la /path/to/your/custom_folder/' to ensure 'id_custom' and 'id_custon.pub' are created
 
